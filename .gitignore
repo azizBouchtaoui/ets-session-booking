@@ -23,3 +23,6 @@ frontend/out/
 # OS
 .DS_Store
 Thumbs.db
+
+# Added by ggshield
+.cache_ggshield
