@@ -1,0 +1,1 @@
+{"last_found_secrets": [{"match": "1071aeec07b1abf84c5a7940f3ac364ecf2d7501549f6be22e1e84c3b9b2a553", "name": "Generic High Entropy Secret - /home/aziz/testTechnique/backend/.env"}, {"match": "ab982d9405a5ff5111aa9fadb8c14d35f8c6b0467819f6b92b3321a00b043be9", "name": "Generic Password - /home/aziz/testTechnique/backend/.env"}]}
