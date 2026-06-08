@@ -88,7 +88,7 @@ Les contrôleurs sont intentionnellement fins : toute logique métier se trouve 
 ### Démarrage
 
 ```bash
-git clone [<repo-url>](https://github.com/azizBouchtaoui/ets-session-booking)
+git clone https://github.com/azizBouchtaoui/ets-session-booking.git
 cd testTechnique
 docker compose up -d --build
 ```
