@@ -37,35 +37,50 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-sm space-y-6">
-        <h1 className="text-2xl font-bold text-center">Create account</h1>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4">
+      {/* Brand */}
+      <div className="mb-8 text-center">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600 mb-4">
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+          </svg>
+        </div>
+        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">ETS Reservations</h1>
+        <p className="text-sm text-gray-500 mt-1">Create your account</p>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Card */}
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {globalError && (
-            <p className="rounded bg-red-100 px-3 py-2 text-sm text-red-700">{globalError}</p>
+            <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+              {globalError}
+            </div>
           )}
 
           <Field id="name" label="Full name" type="text" value={name}
-            onChange={setName} error={fieldErrors.name} autoComplete="name" />
+            onChange={setName} error={fieldErrors.name} autoComplete="name"
+            placeholder="John Doe" />
 
-          <Field id="email" label="Email" type="email" value={email}
-            onChange={setEmail} error={fieldErrors.email} autoComplete="email" />
+          <Field id="email" label="Email address" type="email" value={email}
+            onChange={setEmail} error={fieldErrors.email} autoComplete="email"
+            placeholder="you@example.com" />
 
-          <Field id="password" label="Password (min. 8 chars)" type="password" value={password}
-            onChange={setPassword} error={fieldErrors.password} autoComplete="new-password" />
+          <Field id="password" label="Password" type="password" value={password}
+            onChange={setPassword} error={fieldErrors.password} autoComplete="new-password"
+            placeholder="Min. 8 characters" />
 
           <button
             type="submit" disabled={loading}
-            className="w-full rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+            className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
-            {loading ? 'Creating account…' : 'Register'}
+            {loading ? 'Creating account…' : 'Create account'}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 hover:underline">Sign in</Link>
+          <Link href="/login" className="font-medium text-blue-600 hover:text-blue-700">Sign in</Link>
         </p>
       </div>
     </div>
@@ -73,20 +88,25 @@ export default function RegisterPage() {
 }
 
 function Field({
-  id, label, type, value, onChange, error, autoComplete,
+  id, label, type, value, onChange, error, autoComplete, placeholder,
 }: {
   id: string; label: string; type: string; value: string;
-  onChange: (v: string) => void; error?: string; autoComplete?: string;
+  onChange: (v: string) => void; error?: string; autoComplete?: string; placeholder?: string;
 }) {
   return (
-    <div>
-      <label className="block text-sm font-medium mb-1" htmlFor={id}>{label}</label>
+    <div className="space-y-1.5">
+      <label className="block text-sm font-medium text-gray-700" htmlFor={id}>{label}</label>
       <input
         id={id} type={type} required autoComplete={autoComplete}
         value={value} onChange={e => onChange(e.target.value)}
-        className={`w-full rounded border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${error ? 'border-red-500' : 'border-gray-300'}`}
+        placeholder={placeholder}
+        className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 transition ${
+          error
+            ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
+            : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500/20'
+        }`}
       />
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
   );
 }

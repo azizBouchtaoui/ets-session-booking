@@ -49,69 +49,102 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">My Profile</h1>
-        <div className="flex gap-2">
-          <button
-            onClick={() => router.push('/sessions')}
-            className="rounded border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50"
-          >
-            ← Sessions
-          </button>
-          <button
-            onClick={handleLogout}
-            className="rounded bg-gray-800 px-3 py-1.5 text-sm text-white hover:bg-gray-700"
-          >
-            Sign out
-          </button>
-        </div>
-      </div>
-
-      <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {globalError && (
-            <p className="rounded bg-red-100 px-3 py-2 text-sm text-red-700">{globalError}</p>
-          )}
-          {success && (
-            <p className="rounded bg-green-100 px-3 py-2 text-sm text-green-700">{success}</p>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="name">Name</label>
-            <input
-              id="name" type="text" value={name} onChange={e => setName(e.target.value)}
-              className={`w-full rounded border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${fieldErrors.name ? 'border-red-500' : 'border-gray-300'}`}
-            />
-            {fieldErrors.name && <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>}
+    <div className="min-h-screen bg-gray-50">
+      {/* Top navigation */}
+      <header className="bg-white border-b border-gray-200">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+            </div>
+            <span className="font-semibold text-gray-900">ETS Reservations</span>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="email">Email</label>
-            <input
-              id="email" type="email" value={email} onChange={e => setEmail(e.target.value)}
-              className={`w-full rounded border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${fieldErrors.email ? 'border-red-500' : 'border-gray-300'}`}
-            />
-            {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => router.push('/sessions')}
+              className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+            >
+              ← Sessions
+            </button>
+            <button
+              onClick={handleLogout}
+              className="rounded-lg bg-gray-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-700 transition"
+            >
+              Sign out
+            </button>
           </div>
-
-          <button
-            type="submit" disabled={loading}
-            className="w-full rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? 'Saving…' : 'Save changes'}
-          </button>
-        </form>
-
-        <div className="mt-4 border-t border-gray-100 pt-4">
-          <p className="text-xs text-gray-500">
-            Roles: {user?.roles.join(', ')}
-          </p>
-          <p className="text-xs text-gray-400 mt-1">
-            Member since {user ? new Date(user.createdAt).toLocaleDateString() : '—'}
-          </p>
         </div>
-      </div>
+      </header>
+
+      <main className="mx-auto max-w-lg px-4 sm:px-6 py-8">
+        <div className="mb-6">
+          <h1 className="text-xl font-semibold text-gray-900">My Profile</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Update your personal information</p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {globalError && (
+              <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                {globalError}
+              </div>
+            )}
+            {success && (
+              <div className="rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+                {success}
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="name">Full name</label>
+              <input
+                id="name" type="text" value={name} onChange={e => setName(e.target.value)}
+                className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 transition ${
+                  fieldErrors.name
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
+                    : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500/20'
+                }`}
+              />
+              {fieldErrors.name && <p className="text-xs text-red-600">{fieldErrors.name}</p>}
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email address</label>
+              <input
+                id="email" type="email" value={email} onChange={e => setEmail(e.target.value)}
+                className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-2 transition ${
+                  fieldErrors.email
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
+                    : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500/20'
+                }`}
+              />
+              {fieldErrors.email && <p className="text-xs text-red-600">{fieldErrors.email}</p>}
+            </div>
+
+            <button
+              type="submit" disabled={loading}
+              className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              {loading ? 'Saving…' : 'Save changes'}
+            </button>
+          </form>
+
+          <div className="mt-5 pt-5 border-t border-gray-100 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-medium text-gray-500">Role</p>
+              <p className="text-sm text-gray-700 mt-0.5">{user?.roles.join(', ')}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-xs font-medium text-gray-500">Member since</p>
+              <p className="text-sm text-gray-700 mt-0.5">
+                {user ? new Date(user.createdAt).toLocaleDateString('en-GB', {dateStyle: 'medium'}) : '—'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
